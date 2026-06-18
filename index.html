@@ -376,6 +376,38 @@
                 transform: translateY(-1px);
             }
 
+        /* ===== CURRENTLY PLAYING (icon-only grid) ===== */
+        .playing-grid {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+ 
+        .playing-item {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--frame);
+            border: 1px solid rgba(255,255,255,.05);
+            transition: .25s;
+            flex-shrink: 0;
+        }
+ 
+            .playing-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+ 
+            .playing-item:hover {
+                transform: translateY(-4px);
+                border-color: var(--accent);
+                box-shadow: 0 8px 18px rgba(0,0,0,.25);
+            }
+
 
         /* ===== MOBILE ===== */
         @media(max-width:900px) {
@@ -496,6 +528,36 @@
 
                 </div>
 
+            </div>
+
+            <div class="sidebar-section">
+ 
+                <div class="sidebar-section-title"
+                     data-en="Currently Playing"
+                     data-vi="Đang chơi">
+                    Currently Playing
+                </div>
+ 
+                <div class="playing-grid">
+ 
+                    <div class="playing-item" title="League of Legends">
+                        <img src="asset/games/lol.png" alt="League of Legends">
+                    </div>
+ 
+                    <div class="playing-item" title="Valorant">
+                        <img src="asset/games/valorant.png" alt="Valorant">
+                    </div>
+ 
+                    <div class="playing-item" title="Teamfight Tactics">
+                        <img src="asset/games/tft.png" alt="Teamfight Tactics">
+                    </div>
+ 
+                    <div class="playing-item" title="Call of Dragons">
+                        <img src="asset/games/cod.png" alt="Call of Dragons">
+                    </div>
+ 
+                </div>
+ 
             </div>
         </div>
 
