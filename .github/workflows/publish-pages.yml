@@ -1,0 +1,88 @@
+name: Publish portfolio and prototypes
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      publish: ${{ steps.version.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          path: portfolio
+          persist-credentials: false
+
+      - name: Check for site changes
+        id: version
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          prototype=$(git ls-remote --exit-code https://github.com/LongNoobb/PROTOTYPE_GAME_HTML5.git refs/heads/main | cut -f1)
+          portfolio=$(git -C portfolio rev-parse HEAD)
+          version="$portfolio $prototype"
+          echo "prototype=$prototype" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          if [ "$EVENT" = schedule ]; then
+            deployed=$(curl -fsS --max-time 15 "https://longtd.dev/prototype/build-version.txt?version=$portfolio-$prototype" || true)
+            if [ "$version" = "$deployed" ]; then
+              echo 'publish=false' >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+          echo 'publish=true' >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - uses: actions/checkout@v6
+        if: steps.version.outputs.publish == 'true'
+        with:
+          repository: LongNoobb/PROTOTYPE_GAME_HTML5
+          ref: ${{ steps.version.outputs.prototype }}
+          path: prototypes
+          persist-credentials: false
+
+      - name: Assemble static site
+        if: steps.version.outputs.publish == 'true'
+        env:
+          BUILD_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          mkdir public
+          git -C portfolio archive HEAD -- . ':!.github' | tar -x -C public
+          node prototypes/scripts/build.mjs public/prototype
+          printf '%s\n' "$BUILD_VERSION" > public/prototype/build-version.txt
+        shell: bash
+
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.version.outputs.publish == 'true'
+        with:
+          path: public
+          include-hidden-files: true
+
+  deploy:
+    if: needs.build.outputs.publish == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
