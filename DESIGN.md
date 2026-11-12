@@ -14,7 +14,9 @@ Reference: `awesome-design-md/references/library/runwayml/DESIGN.md`, snapshot `
 
 ## Tokens
 
-The source of truth is `portfolio/styles.css`. The portfolio is served at `/portfolio/`; `/` is a minimal Work in progress page using the same dark background, foreground and accent colors.
+The source of truth is `portfolio/styles.css`. The portfolio is served at `/portfolio/`.
+
+The Work in progress page at `/` has a separate sketchbook direction: warm paper (#f5f2eb), charcoal ink (#292924), muted annotations (#68665e) and burnt orange (#b34225). Its inline CSS in `index.html` owns these tokens. Centered sans-serif display type pairs with an italic Georgia second line and monospace annotations. A decorative SVG shows an unfinished isometric block assembly above the title; only its loose piece floats, and reduced-motion disables that animation. A subtle dot grid, thin rules and generous space evoke a work in progress without a fictitious completion percentage or launch date. Keep the root page free of project content.
 
 | Role | Dark | Light |
 | --- | --- | --- |
