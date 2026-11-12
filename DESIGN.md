@@ -14,7 +14,7 @@ Reference: `awesome-design-md/references/library/runwayml/DESIGN.md`, snapshot `
 
 ## Tokens
 
-The source of truth is `styles.css`.
+The source of truth is `portfolio/styles.css`. The portfolio is served at `/portfolio/`; `/` is a minimal Work in progress page using the same dark background, foreground and accent colors.
 
 | Role | Dark | Light |
 | --- | --- | --- |

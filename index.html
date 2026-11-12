@@ -3,22 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Tran Duc Long — Unity Developer. Explore a selection of 2D and 3D games, from card battles and action adventures to playful mobile puzzles.">
+  <meta name="description" content="Tran Duc Long's website. Work in progress — something new is taking shape.">
   <meta name="theme-color" content="#111412">
-  <title>Tran Duc Long — Unity Developer</title>
-  <link rel="icon" href="asset/icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700;750;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script>
-    try {
-      document.documentElement.dataset.theme = localStorage.getItem('portfolio-theme') === 'light' ? 'light' : 'dark';
-      document.documentElement.lang = localStorage.getItem('portfolio-language') === 'vi' ? 'vi' : 'en';
-    } catch (_) {}
-  </script>
-  <script src="projects.js" defer></script>
-  <script src="app.js" defer></script>
+  <title>Work in progress · Tran Duc Long</title>
+  <link rel="canonical" href="https://longtd.dev/">
+  <link rel="icon" href="/portfolio/asset/icon.png">
+  <style>
+    :root { color-scheme: dark; --background: #111412; --text: #f0f2ed; --muted: #a2aaa3; --accent: #b6eb93; --border: #303931; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--background); color: var(--text); font-family: "Segoe UI", sans-serif; }
+    .page { min-height: 100svh; max-width: 1440px; margin: auto; padding: 36px clamp(24px, 6vw, 88px); display: flex; flex-direction: column; }
+    header { font-size: 16px; font-weight: 600; letter-spacing: -.02em; }
+    .brand-dot { color: var(--accent); }
+    main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 80px 0; }
+    .status { margin: 0 0 28px; display: flex; align-items: center; gap: 10px; color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    h1 { margin: 0; font-size: clamp(58px, 9vw, 128px); font-weight: 500; line-height: 1.02; letter-spacing: -.065em; }
+    h1 span { color: var(--accent); }
+    .message { max-width: 400px; margin: 30px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+    footer { padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; line-height: 1.6; }
+    @media (max-width: 480px) { .page { padding-top: 28px; padding-bottom: 28px; } .message { font-size: 16px; } }
+  </style>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-F3N95N39ZR"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -27,55 +32,14 @@
   </script>
 </head>
 <body>
-  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
-    <symbol id="icon-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
-    <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></symbol>
-    <symbol id="icon-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></symbol>
-    <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></symbol>
-    <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></symbol>
-    <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.8 13.2A9 9 0 0 1 10.8 3 9 9 0 1 0 20.8 13.2Z"/></symbol>
-    <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
-    <symbol id="icon-code" viewBox="0 0 24 24"><path d="m7 7-5 5 5 5m10-10 5 5-5 5M14 4l-4 16"/></symbol>
-    <symbol id="icon-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></symbol>
-    <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
-    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
-    <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
-    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
-    <symbol id="icon-cube" viewBox="0 0 24 24"><path d="m12 3 9 5v8l-9 5-9-5V8Z"/><path d="m3 8 9 5 9-5m-9 5v8M7.5 5.5l9 5"/></symbol>
-    <symbol id="icon-game" viewBox="0 0 24 24"><path d="M7 7h10c3 0 6 11 3 12-2 1-5-4-5-4H9s-3 5-5 4C1 18 4 7 7 7Z"/><path d="M7 10v4m-2-2h4m6-1h.01M18 13h.01"/></symbol>
-  </svg>
-  <a class="skip-link" href="#main" data-en="Skip to content" data-vi="Đến nội dung chính">Skip to content</a>
-  <aside class="sidebar">
-    <a class="identity" href="#home" aria-label="Tran Duc Long — home">
-      <div class="avatar-wrap"><img class="avatar" src="asset/avatar(1).png" alt="Tran Duc Long" width="72" height="72"><span class="avatar-dot"></span></div>
-      <div><span class="name" data-en="Tran Duc Long" data-vi="Trần Đức Long">Tran Duc Long</span><span class="role" data-en="Unity Developer" data-vi="Lập trình viên Unity">Unity Developer</span></div>
-    </a>
-    <div class="sidebar-rule"></div><span class="sidebar-label" data-en="EXPLORE" data-vi="KHÁM PHÁ">EXPLORE</span>
-    <nav class="navigation" aria-label="Main navigation">
-      <a href="#projects" class="nav-link active" aria-current="location"><svg class="icon"><use href="#icon-grid"/></svg><span data-en="My work" data-vi="Dự án">My work</span><span class="nav-count">05</span></a>
-      <a href="#about" class="nav-link"><svg class="icon"><use href="#icon-person"/></svg><span data-en="About me" data-vi="Về tôi">About me</span></a>
-      <a href="#contact" class="nav-link"><svg class="icon"><use href="#icon-mail"/></svg><span data-en="Contact" data-vi="Liên hệ">Contact</span></a>
-    </nav>
-    <div class="sidebar-note"><svg class="icon"><use href="#icon-code"/></svg><p data-en="A little curiosity.&#10;A lot of making things." data-vi="Một chút tò mò.&#10;Thật nhiều sáng tạo.">A little curiosity.<br>A lot of making things.</p></div>
-    <div class="sidebar-bottom"><p class="sidebar-label" data-en="LET’S CONNECT" data-vi="KẾT NỐI VỚI TÔI">LET’S CONNECT</p><a href="mailto:tranduclong09@gmail.com" class="sidebar-contact">Email <svg class="icon"><use href="#icon-up-right"/></svg></a><a href="https://www.facebook.com/tranduclong0708" target="_blank" rel="noopener noreferrer" class="sidebar-contact">Facebook <svg class="icon"><use href="#icon-up-right"/></svg></a><p class="sidebar-foot">© <span class="current-year">2026</span> Tran Duc Long</p></div>
-  </aside>
-  <main id="main" class="main" tabindex="-1">
-    <header class="topbar" id="home"><a href="#home" class="wordmark">LONG<span class="wordmark-dot">.</span><span class="wordmark-caption"> / PORTFOLIO</span></a><div class="preferences"><button class="language-button" id="langBtn" type="button" aria-label="Switch to Vietnamese"><svg class="icon"><use href="#icon-globe"/></svg><span id="languageLabel">EN</span></button><span class="control-divider"></span><button class="icon-button" id="themeBtn" type="button" aria-label="Switch to light theme"><svg class="icon"><use href="#icon-sun"/></svg></button></div></header>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy"><p class="eyebrow"><span class="small-dot"></span><span data-en="DEVELOPER BY CRAFT. GAMER AT HEART." data-vi="LẬP TRÌNH BẰNG ĐAM MÊ. CHƠI BẰNG TRÁI TIM.">DEVELOPER BY CRAFT. GAMER AT HEART.</span></p><h1 id="hero-title"><span data-en="Turning ideas" data-vi="Biến ý tưởng">Turning ideas</span><br><span data-en="into " data-vi="thành ">into </span><span class="accent-text" data-en="play." data-vi="trò chơi.">play.</span></h1><p class="hero-description" data-en="Hi, I’m Long — a Unity developer exploring the space between thoughtful game systems and the simple joy of playing." data-vi="Chào bạn, tôi là Long — lập trình viên Unity, theo đuổi sự kết hợp giữa hệ thống game chỉn chu và niềm vui giản đơn khi chơi.">Hi, I’m Long — a Unity developer exploring the space between thoughtful game systems and the simple joy of playing.</p><div class="hero-actions"><a class="button button-primary" href="#projects"><span data-en="Explore my work" data-vi="Khám phá dự án">Explore my work</span><svg class="icon"><use href="#icon-arrow"/></svg></a><a class="text-link" href="#contact"><span data-en="Let’s talk" data-vi="Cùng trò chuyện">Let’s talk</span><svg class="icon"><use href="#icon-up-right"/></svg></a></div></div>
-      <div class="hero-art" aria-label="A selection of my game projects"><div class="art-grid"></div><span class="art-plus plus-one">+</span><span class="art-plus plus-two">+</span><span class="art-label">IDEA → CODE → PLAY</span><div class="game-window"><div class="window-toolbar"><span></span><span></span><span></span><span class="window-name">Food War</span></div><img src="asset/FoodWar/food_war1.png" alt="Food War’s colorful culinary world" width="1706" height="957" fetchpriority="high"></div><div class="game-phone"><img src="asset/TapAway3D/1.jpg" alt="Tap Away 3D block puzzle" width="1080" height="1920"></div><span class="art-sticker"><svg class="icon"><use href="#icon-cube"/></svg><span>Built with Unity</span></span><div class="art-caption"><span class="small-dot"></span><span data-en="Small details. Better experiences." data-vi="Chi tiết nhỏ. Trải nghiệm tốt hơn.">Small details. Better experiences.</span></div></div>
-    </section>
-    <div class="intro-strip"><div><span class="strip-number">05</span><span data-en="Projects to explore" data-vi="Dự án để khám phá">Projects to explore</span></div><div><svg class="icon"><use href="#icon-cube"/></svg><span data-en="2D & 3D experiences" data-vi="Trải nghiệm 2D & 3D">2D & 3D experiences</span></div><div><svg class="icon"><use href="#icon-game"/></svg><span data-en="Made for the player" data-vi="Vì trải nghiệm người chơi">Made for the player</span></div></div>
-    <section id="projects" class="work-section" aria-labelledby="work-title">
-      <div class="section-heading"><div><p class="eyebrow section-kicker" data-en="01 / THE COLLECTION" data-vi="01 / BỘ SƯU TẬP">01 / THE COLLECTION</p><h2 id="work-title" data-en="Selected work" data-vi="Dự án tiêu biểu">Selected work</h2></div><p class="section-aside" data-en="Different worlds. Same curiosity." data-vi="Thế giới mới. Đam mê không đổi.">Different worlds. Same curiosity.</p></div>
-      <div class="work-toolbar"><div class="filters" role="group" aria-label="Filter projects"><button type="button" class="filter-button selected" data-filter="all" aria-pressed="true"><span data-en="All projects" data-vi="Tất cả">All projects</span><span class="filter-count">05</span></button><button type="button" class="filter-button" data-filter="puzzle" aria-pressed="false" data-en="Puzzle" data-vi="Giải đố">Puzzle</button><button type="button" class="filter-button" data-filter="action" aria-pressed="false" data-en="Action" data-vi="Hành động">Action</button><button type="button" class="filter-button" data-filter="card" aria-pressed="false" data-en="Card & strategy" data-vi="Thẻ bài & chiến thuật">Card & strategy</button></div><span class="work-years">2025 — 2026</span></div><p id="filter-status" class="sr-only" role="status"></p><div class="project-grid" id="project-grid"></div><noscript><p>Enable JavaScript to explore the project galleries. Contact me at <a href="mailto:tranduclong09@gmail.com">tranduclong09@gmail.com</a>.</p></noscript>
-    </section>
-    <section id="about" class="about-section" aria-labelledby="about-title"><div class="section-heading"><div><p class="eyebrow section-kicker" data-en="02 / BEHIND THE GAMES" data-vi="02 / PHÍA SAU TRÒ CHƠI">02 / BEHIND THE GAMES</p><h2 id="about-title" data-en="A developer. And a player." data-vi="Lập trình viên. Và người chơi.">A developer. And a player.</h2></div></div><div class="about-layout"><div class="about-story"><p class="about-lead" data-en="I care about how a game feels, just as much as how it works." data-vi="Tôi quan tâm đến cảm giác khi chơi, cũng như cách một trò chơi vận hành.">I care about how a game feels, just as much as how it works.</p><p data-en="My goal is to grow into a developer who can design and develop gameplay and core game systems that deliver stable performance and meaningful player experiences." data-vi="Mục tiêu của tôi là phát triển thành lập trình viên có thể thiết kế và phát triển gameplay cùng các hệ thống game cốt lõi, giúp game vận hành ổn định và mang lại trải nghiệm có giá trị cho người chơi.">My goal is to grow into a developer who can design and develop gameplay and core game systems that deliver stable performance and meaningful player experiences.</p><div class="skill-tags"><span>Unity</span><span data-en="Gameplay development" data-vi="Phát triển gameplay">Gameplay development</span><span data-en="Game systems" data-vi="Hệ thống game">Game systems</span><span>2D / 3D</span></div></div><div class="about-details"><div class="education"><p class="detail-label" data-en="THE FOUNDATION" data-vi="NỀN TẢNG">THE FOUNDATION</p><h3 data-en="FPT University Ha Noi" data-vi="Đại học FPT Hà Nội">FPT University Ha Noi</h3><p data-en="Software Engineering" data-vi="Kỹ thuật phần mềm">Software Engineering</p><span class="detail-date">2021 — 2025</span></div><div class="playing"><p class="detail-label" data-en="OFF THE CLOCK / CURRENTLY PLAYING" data-vi="SAU GIỜ LÀM / ĐANG CHƠI">OFF THE CLOCK / CURRENTLY PLAYING</p><div class="playing-grid"><div class="playing-item"><img src="asset/games/lol.png" alt="League of Legends" width="44" height="44" loading="lazy"><span>League of Legends</span></div><div class="playing-item"><img src="asset/games/valorant.png" alt="Valorant" width="44" height="44" loading="lazy"><span>Valorant</span></div><div class="playing-item"><img src="asset/games/tft.png" alt="Teamfight Tactics" width="44" height="44" loading="lazy"><span>Teamfight Tactics</span></div><div class="playing-item"><img src="asset/games/cod.png" alt="Call of Dragons" width="44" height="44" loading="lazy"><span>Call of Dragons</span></div></div></div></div></div></section>
-    <section id="contact" class="contact-section" aria-labelledby="contact-title"><div class="contact-top"><div><p class="eyebrow section-kicker" data-en="03 / NEXT LEVEL" data-vi="03 / CHẶNG TIẾP THEO">03 / NEXT LEVEL</p><h2 id="contact-title"><span data-en="Great games start" data-vi="Game hay bắt đầu">Great games start</span><br><span data-en="with a conversation." data-vi="từ một cuộc trò chuyện.">with a conversation.</span></h2><p data-en="Have a project in mind, or just want to talk games? I’d love to hear from you." data-vi="Bạn có ý tưởng dự án, hay muốn trò chuyện về game? Hãy kết nối với tôi.">Have a project in mind, or just want to talk games? I’d love to hear from you.</p></div><a class="contact-arrow" href="mailto:tranduclong09@gmail.com" aria-label="Email Tran Duc Long"><svg class="icon"><use href="#icon-up-right"/></svg></a></div><div class="contact-bottom"><div class="email-group"><a class="email-link" href="mailto:tranduclong09@gmail.com">tranduclong09@gmail.com</a><button type="button" id="copyEmail" class="icon-button" aria-label="Copy email address"><svg class="icon"><use href="#icon-copy"/></svg></button></div><a class="text-link" href="https://www.facebook.com/tranduclong0708" target="_blank" rel="noopener noreferrer">Facebook <svg class="icon"><use href="#icon-up-right"/></svg></a></div><p id="copy-status" role="status" class="copy-status"></p></section>
-    <footer class="footer"><span>© <span class="current-year">2026</span> <span data-en="Tran Duc Long. Crafted with curiosity." data-vi="Trần Đức Long. Tạo nên từ sự tò mò.">Tran Duc Long. Crafted with curiosity.</span></span><a href="#home"><span data-en="Back to top" data-vi="Về đầu trang">Back to top</span><svg class="icon"><use href="#icon-up-right"/></svg></a></footer>
-  </main>
-  <dialog id="project-dialog" class="project-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><span class="detail-label" data-en="PROJECT DETAILS" data-vi="CHI TIẾT DỰ ÁN">PROJECT DETAILS</span><button type="button" class="icon-button close-dialog" aria-label="Close project"><svg class="icon"><use href="#icon-close"/></svg></button></div><div id="dialog-content"></div></dialog>
+  <div class="page">
+    <header>Tran Duc Long<span class="brand-dot">.</span></header>
+    <main>
+      <p class="status">A little work behind the scenes</p>
+      <h1>Work in<br><span>progress.</span></h1>
+      <p class="message">Something new is taking shape.<br>Check back soon.</p>
+    </main>
+    <footer>Made with curiosity by Tran Duc Long.</footer>
+  </div>
 </body>
 </html>
-
