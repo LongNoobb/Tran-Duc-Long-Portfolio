@@ -6,11 +6,11 @@ Introduce Long as a Unity developer, let visitors scan five real games, inspect 
 
 ## Visual direction
 
-A quiet developer workspace with editorial typography and colorful game imagery. A fixed identity rail on desktop becomes a compact sticky identity and navigation bar on mobile. The hero composes existing game screenshots; Food War leads the project collection. Other projects follow in a two-column grid, collapsing to a single column below 560px.
+An editorial game-developer playground: a compact horizontal sticky header, large sans-serif introduction with an italic serif accent, and real gameplay shown as the primary visual. The default is a cool off-white canvas with a terracotta action color; the saved dark theme uses charcoal and peach. A forest-green contact section closes the page. The hero lets visitors manually preview Food War, Tap Away, or Blackout and open the selected project. Food War leads the work collection; the remaining projects use an open two-column layout instead of boxed dashboard cards.
 
-Open Design supplies the design-contract and visual-review process. UI/UX Pro Max supplies interaction, contrast, focus, responsive and motion guidance. Its generated FAQ page pattern was unsuitable for this portfolio and was discarded. The Awesome Design MD Runway snapshot informs image-led composition, restrained surfaces, and typography; it is inspiration rather than a copy of Runway branding. The actual font is Inter with Segoe UI and sans-serif fallbacks. No proprietary font or external brand assets are used.
+Open Design supplies the brief, design-contract, and visual-review process. UI/UX Pro Max supplies contrast, focus, touch-target, responsive, and motion guidance. Its generated FAQ/documentation landing pattern was unsuitable for this portfolio and was discarded. Awesome Design MD’s Runway snapshot informs image-led composition, restrained surfaces, and an editorial hierarchy. This is an adaptation, not Runway branding: the portfolio keeps its own colors and actual project imagery. The Anime.js skill informed the decision to retain small CSS transitions without adding a library. The game-specific guideline and Smashfest UI skills were scoped out of website styling; their game HUD and toy-panel conventions do not fit this portfolio.
 
-Reference: `awesome-design-md/references/library/runwayml/DESIGN.md`, snapshot `fcc70284932276d085f01ef9f83edde90b1258cb`. The site remains buildless HTML/CSS/JavaScript in its existing checkout.
+Reference: `awesome-design-md/references/library/runwayml/DESIGN.md`, snapshot `fcc70284932276d085f01ef9f83edde90b1258cb`. The site remains buildless HTML/CSS/JavaScript in its existing checkout. No hosting migration is part of the redesign.
 
 ## Tokens
 
@@ -20,26 +20,28 @@ The Work in progress page at `/` has a separate sketchbook direction: warm paper
 
 | Role | Dark | Light |
 | --- | --- | --- |
-| Background | #111412 | #f6f7f2 |
-| Identity rail | #151816 | #eef0e9 |
-| Surface | #1a1e1b | #ffffff |
-| Foreground | #f0f2ed | #20271f |
-| Muted foreground | #a2aaa3 | #596451 |
-| Secondary metadata | #858f87 | #64705f |
-| Border | #303931 | #d4d9cd |
-| Accent | #b6eb93 | #365c25 |
-| On accent | #182512 | #ffffff |
-| Accent surface | #273323 | #e0ebd5 |
+| Background | #15191b | #f7f8fa |
+| Surface | #1f2528 | #ffffff |
+| Hover surface | #2b3439 | #ebeef2 |
+| Foreground | #f3f4f1 | #202628 |
+| Muted foreground | #b2bbc0 | #596369 |
+| Secondary metadata | #9ca8ae | #657076 |
+| Border | #3c474d | #d9dfe2 |
+| Accent | #ffad8f | #bc4324 |
+| On accent | #342016 | #ffffff |
+| Accent surface | #3b2c26 | #fbece6 |
 
-The art panel uses a subtle grid, with flat surfaces behind the screenshot collage. Shadows are limited to the composited game screens. Rounded corners: 4–8px for metadata and controls, 12–16px for cards and dialogs. Content spacing follows a 4–8px base with 24px card gutters and 43–64px section spacing.
+The contact panel has local semantic tokens: forest background #26372f, text #f8f6f1, muted #c0c8c4, accent #ffc2a5. Controls use 6–8px corners, image surfaces and sections 10–14px. Shadows are limited to portrait screenshot compositions. The tilted desktop showcase is static; it straightens on mobile.
 
 ## Typography and layout
 
-Inter 400–750; large medium-weight headlines, 28–43px section titles, and muted body copy. Headlines scale to the viewport. Vietnamese uses looser leading and tracking to preserve accents. Main content uses a maximum width with 24–70px gutters; the desktop rail is 210–236px. At <=760px, navigation and preferences remain reachable at the top. At 761–1000px the hero emphasizes text to avoid squeezing its illustration.
+Inter with Segoe UI and sans-serif fallbacks provides the body and headings. Georgia/Times New Roman provides only the italic hero accent. Body text is 16px or larger with 1.65–1.85 line height, action labels generally 14px, secondary metadata 12–13px. The small showcase eyebrow is 11px and nonessential. Main headings scale up to 80px. Vietnamese receives a smaller display size and looser line-height to protect accents.
+
+The centered container is at most 1328px including 48px side gutters. Tablet gutters are 32px; mobile gutters are 22px, or 16px at <=370px. Below 760px the header becomes two rows, the hero and About section stack, and the featured project becomes image-first. Project cards become a single column below 540px. Sticky navigation has a matching anchor offset. Main controls target at least 44px in height. Filter counts are visible and announced.
 
 ## Interaction
 
-- All project filters are native buttons with pressed states and an announced result count.
+- Hero preview choices and project filters are native buttons with pressed states. Previews never auto-advance. The visible filter count is announced through a status region.
 - Project details use a native dialog with explicit keyboard wrapping: focus containment, Escape, explicit close, outside click, and return focus to the opener. Project hashes can be linked directly; browser Back closes details opened from a card.
 - Galleries never auto-advance. Previous/next, thumbnails, arrow keys and horizontal swipe change screenshots; the full image is contained rather than cropped. Image errors provide a readable recovery message.
 - YouTube is loaded only after an explicit action. An external YouTube link is available as a fallback. Closing the dialog removes the frame and stops playback.
@@ -49,6 +51,6 @@ Inter 400–750; large medium-weight headlines, 28–43px section titles, and mu
 
 ## Content and maintenance
 
-`projects.js` preserves all five original projects, 30 screenshots, seven store links, and four gameplay video URLs. `app.js` provides short bilingual summaries without adding employment, experience, popularity, or contribution claims. Do not invent download counts, testimonials, project responsibilities, or availability. Reuse original assets and keep the gameplay screenshots readable.
+`projects.js` preserves all five original projects, 30 screenshots, seven store links, and four gameplay video URLs. `asset/optimized/` contains WebP derivatives; originals remain unchanged. Run `python scripts/optimize-images.py` with Pillow installed only when regenerating assets. The delivered site has no Python dependency. Icons and avatars are at most 192px; screenshots are contained within 1440×1600. `app.js` provides short bilingual summaries without adding employment, experience, popularity, or contribution claims. Do not invent download counts, testimonials, project responsibilities, or availability. Reuse original assets and keep the gameplay screenshots readable.
 
 Validate representative desktop and mobile viewports, both languages and themes, gallery navigation, browser history, keyboard focus, preference persistence, missing-resource handling, and reduced motion after substantive changes.

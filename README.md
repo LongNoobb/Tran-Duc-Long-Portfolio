@@ -12,6 +12,12 @@ Portfolio source files are under `portfolio/`:
 - `styles.css`: responsive layout, semantic design tokens and themes.
 - `projects.js`: original project descriptions, screenshots, store links and video URLs.
 - `app.js`: language/theme persistence, project filters, accessible project dialog, gallery and email copy.
-- `DESIGN.md`: design decisions and maintenance guidelines.
+- `../DESIGN.md`: design decisions and maintenance guidelines.
 
 Project details support direct links such as `/portfolio/#project-food-war`. Push to `main` to publish through `.github/workflows/publish-pages.yml`; the existing CNAME is preserved.
+
+## Design and images
+
+The 2026-11-19 redesign adds a horizontal sticky navigation, an interactive game preview, larger controls and text, and an editorial project collection. Both English/Vietnamese and light/dark preferences are preserved. Existing root and prototype pages are unchanged.
+
+Browser images use WebP derivatives under `portfolio/asset/optimized/`; all original images remain available. To regenerate after editing or adding source images, run `python scripts/optimize-images.py` with Pillow installed. This is an optional authoring tool, not a website runtime dependency.

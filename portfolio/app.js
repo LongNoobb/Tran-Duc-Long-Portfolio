@@ -9,6 +9,7 @@ let currentProject = null;
 let currentSlide = 0;
 let projectOpener = null;
 let copyTimer;
+let previewProjectId = 'food-war';
 
 const summaries = {
   'food-war': {
@@ -67,11 +68,30 @@ function remember(key, value) {
 }
 
 function storeLinks(project) {
-  return project.links.map(link => `<a class="store-link" href="${escapeHTML(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)}${icon('up-right')}</a>`).join('');
+  return project.links.map(link => `<a class="store-link" href="${escapeHTML(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)}</a>`).join('');
+}
+
+function imageSource(src) {
+  return src.replace('asset/', 'asset/optimized/').replace(/\.[^.]+$/, '.webp');
 }
 
 function projectTags(project) {
   return project.tags.map(tag => `<span class="tag">${escapeHTML(tag[language])}</span>`).join('');
+}
+
+function renderPreview() {
+  const project = projects.find(item => item.id === previewProjectId);
+  const text = labels[language];
+  document.getElementById('hero-preview').innerHTML = `
+    <button class="preview-cover" data-game="${project.id}" data-open="${project.id}" type="button" aria-label="${text.details}: ${escapeHTML(project.title)}">
+      <img src="${imageSource(project.images[0])}" alt="${escapeHTML(project.title)} — ${text.screenshot} 1" width="1706" height="957" fetchpriority="high">
+    </button>
+    <div class="preview-caption"><div><span class="preview-title">${escapeHTML(project.title)}</span><span class="preview-category">${text.categories[project.category]} · ${project.year}</span></div><button class="preview-open" data-open="${project.id}" type="button" aria-label="${text.details}: ${escapeHTML(project.title)}">${language === 'vi' ? 'Xem dự án' : 'View project'}</button></div>`;
+  document.querySelectorAll('[data-preview]').forEach(button => {
+    const selected = button.dataset.preview === project.id;
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
 }
 
 function renderProjects() {
@@ -79,26 +99,26 @@ function renderProjects() {
   grid.innerHTML = projects.map((project, index) => {
     const portrait = project.category === 'puzzle';
     const cover = portrait
-      ? `<img src="${project.images[0]}" alt="${escapeHTML(project.title)} — ${text.screenshot} 1" loading="lazy" width="1080" height="1920"><img src="${project.images[1]}" alt="${escapeHTML(project.title)} — ${text.screenshot} 2" loading="lazy" width="1080" height="1920">`
-      : `<img class="cover-image" src="${project.images[0]}" alt="${escapeHTML(project.title)} — ${text.screenshot} 1" loading="lazy" width="1706" height="957">`;
+      ? `<img src="${imageSource(project.images[0])}" alt="${escapeHTML(project.title)} — ${text.screenshot} 1" loading="lazy" width="1080" height="1920"><img src="${imageSource(project.images[1])}" alt="${escapeHTML(project.title)} — ${text.screenshot} 2" loading="lazy" width="1080" height="1920">`
+      : `<img class="cover-image" src="${imageSource(project.images[0])}" alt="${escapeHTML(project.title)} — ${text.screenshot} 1" loading="lazy" width="1706" height="957">`;
     return `<article class="project-card ${index === 0 ? 'featured-project' : ''}" data-category="${project.category}" data-project="${project.id}">
       <button type="button" class="project-cover ${portrait ? 'portrait-cover' : ''} ${project.id === 'soda-jam' ? 'soda-cover' : ''}" data-open="${project.id}" aria-label="${text.details}: ${escapeHTML(project.title)}">
-        ${cover}<span class="cover-badge">${project.year}</span><span class="cover-open">${icon('up-right')}</span>
+        ${cover}<span class="cover-badge">${project.year}</span><span class="cover-open">${icon('grid')}${project.images.length} ${language === 'vi' ? 'ảnh' : 'screens'}</span>
       </button>
       <div class="project-content">
-        ${index === 0 ? `<p class="featured-label"><span class="small-dot"></span>${text.featured}</p>` : ''}
+        ${index === 0 ? `<p class="featured-label">${text.featured}</p>` : ''}
         <p class="project-category">${text.categories[project.category]} <span aria-hidden="true">/</span> ${project.tags.some(tag => tag.en === '2D') ? '2D' : '3D'}</p>
         <h3 class="project-title"><button type="button" class="project-title-button" data-open="${project.id}">${escapeHTML(project.title)}</button></h3>
         <p class="project-summary">${summaries[project.id][language]}</p>
         <div class="project-meta">${projectTags(project)}</div>
-        <div class="project-footer"><div class="project-links">${storeLinks(project)}</div><button type="button" class="details-link" data-open="${project.id}" aria-label="${text.details}: ${escapeHTML(project.title)}">${text.details}${icon('arrow')}</button></div>
+        <div class="project-footer"><div class="project-links">${storeLinks(project)}</div><button type="button" class="details-link" data-open="${project.id}" aria-label="${text.details}: ${escapeHTML(project.title)}">${text.details}</button></div>
       </div>
     </article>`;
   }).join('');
-  applyFilter(false);
+  applyFilter();
 }
 
-function applyFilter(announce = true) {
+function applyFilter() {
   let count = 0;
   grid.querySelectorAll('.project-card').forEach(card => {
     card.hidden = activeFilter !== 'all' && card.dataset.category !== activeFilter;
@@ -109,17 +129,15 @@ function applyFilter(announce = true) {
     button.classList.toggle('selected', selected);
     button.setAttribute('aria-pressed', String(selected));
   });
-  if (announce) {
-    document.getElementById('filter-status').textContent = language === 'vi' ? `Đang hiển thị ${count} dự án.` : `Showing ${count} ${count === 1 ? 'project' : 'projects'}.`;
-  }
+  document.getElementById('work-results').textContent = language === 'vi' ? `${count} / ${projects.length} dự án` : `${count} of ${projects.length} projects`;
 }
 
 function updateThemeButton() {
-  const light = root.dataset.theme === 'light';
+  const light = root.dataset.theme !== 'dark';
   const button = document.getElementById('themeBtn');
   button.innerHTML = icon(light ? 'moon' : 'sun');
   button.setAttribute('aria-label', language === 'vi' ? `Chuyển sang giao diện ${light ? 'tối' : 'sáng'}` : `Switch to ${light ? 'dark' : 'light'} theme`);
-  document.querySelector('meta[name="theme-color"]').content = light ? '#f6f7f2' : '#111412';
+  document.querySelector('meta[name="theme-color"]').content = light ? '#f7f8fa' : '#15191b';
 }
 
 function updateLanguage() {
@@ -132,25 +150,27 @@ function updateLanguage() {
   document.getElementById('langBtn').setAttribute('aria-label', language === 'vi' ? 'Switch to English' : 'Chuyển sang tiếng Việt');
   document.querySelector('.navigation').setAttribute('aria-label', language === 'vi' ? 'Điều hướng chính' : 'Main navigation');
   document.querySelector('.filters').setAttribute('aria-label', language === 'vi' ? 'Lọc dự án' : 'Filter projects');
+  document.querySelector('.showcase-selectors').setAttribute('aria-label', language === 'vi' ? 'Chọn game xem trước' : 'Choose a featured game');
   document.querySelector('.close-dialog').setAttribute('aria-label', labels[language].close);
   document.getElementById('copyEmail').setAttribute('aria-label', labels[language].copy);
   document.getElementById('copy-status').textContent = '';
   document.querySelector('.contact-arrow').setAttribute('aria-label', language === 'vi' ? 'Gửi email cho Trần Đức Long' : 'Email Tran Duc Long');
   updateThemeButton();
   renderProjects();
+  renderPreview();
 }
 
 function renderDialog(project) {
   const text = labels[language];
   const youtubeURL = project.video ? `https://www.youtube.com/watch?v=${new URL(project.video).pathname.split('/').pop()}` : '';
   document.getElementById('dialog-content').innerHTML = `
-    <div class="dialog-project-heading"><img class="dialog-icon" src="${project.icon}" alt="" width="58" height="58"><div><h2 id="dialog-title">${escapeHTML(project.title)}</h2><p class="dialog-year">${project.year} · Unity · ${text.categories[project.category]}</p></div></div>
+    <div class="dialog-project-heading"><img class="dialog-icon" src="${imageSource(project.icon)}" alt="" width="58" height="58"><div><h2 id="dialog-title">${escapeHTML(project.title)}</h2><p class="dialog-year">${project.year} · Unity · ${text.categories[project.category]}</p></div></div>
     <p class="dialog-description">${escapeHTML(project.description[language])}</p>
     <div class="dialog-meta"><div class="project-meta">${projectTags(project)}</div><div class="project-links">${storeLinks(project)}</div></div>
-    <div class="gallery-stage ${project.category === 'puzzle' ? 'gallery-portrait' : 'gallery-landscape'}" id="gallery-stage" role="group" aria-label="${language === 'vi' ? 'Ảnh dự án' : 'Project screenshots'}"><img id="gallery-image" src="${project.images[0]}" alt="${escapeHTML(project.title)} — ${text.screenshot} 1" width="1920" height="1080"></div>
+    <div class="gallery-stage ${project.category === 'puzzle' ? 'gallery-portrait' : 'gallery-landscape'}" id="gallery-stage" role="group" aria-label="${language === 'vi' ? 'Ảnh dự án' : 'Project screenshots'}"><img id="gallery-image" src="${imageSource(project.images[0])}" alt="${escapeHTML(project.title)} — ${text.screenshot} 1" width="1920" height="1080"></div>
     <div class="gallery-controls"><span class="gallery-counter" role="status" aria-live="polite">01 / ${String(project.images.length).padStart(2, '0')}</span><div class="gallery-arrows"><button class="icon-button gallery-previous" type="button" aria-label="${text.previous}">${icon('chevron')}</button><button class="icon-button gallery-next" type="button" aria-label="${text.next}">${icon('chevron')}</button></div></div>
-    <div class="gallery-thumbnails" role="group" aria-label="${language === 'vi' ? 'Chọn ảnh' : 'Choose screenshot'}">${project.images.map((src, index) => `<button type="button" class="gallery-thumbnail" data-slide="${index}" aria-label="${text.screenshot} ${index + 1}" aria-pressed="${index === 0}"><img src="${src}" alt="" loading="lazy" width="82" height="56"></button>`).join('')}</div>
-    ${project.video ? `<div class="trailer-section"><div class="trailer-links"><button type="button" class="button" id="load-trailer" aria-expanded="false" aria-controls="trailer-container">${icon('play')}<span>${text.trailer}</span></button><a class="text-link" href="${youtubeURL}" target="_blank" rel="noopener noreferrer">${text.youtube}${icon('up-right')}</a></div><div id="trailer-container"></div></div>` : ''}`;
+    <div class="gallery-thumbnails" role="group" aria-label="${language === 'vi' ? 'Chọn ảnh' : 'Choose screenshot'}">${project.images.map((src, index) => `<button type="button" class="gallery-thumbnail" data-slide="${index}" aria-label="${text.screenshot} ${index + 1}" aria-pressed="${index === 0}"><img src="${imageSource(src)}" alt="" loading="lazy" width="82" height="56"></button>`).join('')}</div>
+    ${project.video ? `<div class="trailer-section"><div class="trailer-links"><button type="button" class="button" id="load-trailer" aria-expanded="false" aria-controls="trailer-container">${icon('play')}<span>${text.trailer}</span></button><a class="text-link" href="${youtubeURL}" target="_blank" rel="noopener noreferrer">${text.youtube}</a></div><div id="trailer-container"></div></div>` : ''}`;
   document.getElementById('gallery-image').addEventListener('error', showImageError);
   let touchStart;
   const stage = document.getElementById('gallery-stage');
@@ -179,7 +199,7 @@ function showSlide(index) {
   currentSlide = (index + currentProject.images.length) % currentProject.images.length;
   const image = document.getElementById('gallery-image');
   document.querySelector('.image-error')?.remove();
-  image.src = currentProject.images[currentSlide];
+  image.src = imageSource(currentProject.images[currentSlide]);
   image.alt = `${currentProject.title} — ${labels[language].screenshot} ${currentSlide + 1}`;
   document.querySelector('.gallery-counter').textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(currentProject.images.length).padStart(2, '0')}`;
   document.querySelectorAll('[data-slide]').forEach(button => {
@@ -216,12 +236,19 @@ function requestClose() {
   }
 }
 
-grid.addEventListener('click', event => {
+document.addEventListener('click', event => {
   const opener = event.target.closest('[data-open]');
   if (!opener) return;
   projectOpener = opener;
   history.pushState({ portfolioProject: true }, '', `#project-${opener.dataset.open}`);
   syncProjectWithHash();
+});
+
+document.querySelectorAll('[data-preview]').forEach(button => {
+  button.addEventListener('click', () => {
+    previewProjectId = button.dataset.preview;
+    renderPreview();
+  });
 });
 
 document.querySelectorAll('[data-filter]').forEach(button => {
@@ -235,7 +262,7 @@ document.getElementById('langBtn').addEventListener('click', () => {
 });
 
 document.getElementById('themeBtn').addEventListener('click', () => {
-  root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
   remember('portfolio-theme', root.dataset.theme);
   updateThemeButton();
 });
